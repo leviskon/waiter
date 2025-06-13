@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Waiter — Система автоматизации для официантов
 
-## Getting Started
+**Waiter** — это современное веб-приложение для автоматизации работы официантов и управления заказами в заведениях общественного питания. Проект построен на базе Next.js, TypeScript, Prisma и TailwindCSS.
 
-First, run the development server:
+## Основные возможности
 
+- **Аутентификация пользователей** (официанты, менеджеры и др.)
+- **Работа со столами**: просмотр статуса, открытие заказа на стол, добавление блюд
+- **Меню и заказы**: просмотр категорий и блюд, создание и изменение заказов, контроль доступности блюд (стоп-лист, остатки ингредиентов)
+- **Учёт ингредиентов**: автоматическое списание при заказе, контроль остатков
+- **Отчёты для официантов**: статистика по заказам и выручке за день, неделю, месяц
+- **Роли пользователей**: разграничение прав (официант, менеджер, кассир и др.)
+- **Смены**: работа только в рамках активной смены
+- **Интеграция с базой данных PostgreSQL через Prisma**
+
+## Структура проекта
+
+- `src/app` — страницы приложения (авторизация, дашборд, столы, отчёты)
+- `src/components` — переиспользуемые UI-компоненты (меню, модальные окна и др.)
+- `src/services` — бизнес-логика (работа с заказами, меню, ингредиентами)
+- `src/lib` — вспомогательные функции, инициализация Prisma, авторизация
+- `prisma/schema.prisma` — описание структуры базы данных
+- `public/` — статические файлы
+
+## Быстрый старт
+
+1. Установите зависимости:
+   ```bash
+   npm install
+   ```
+
+2. Настройте переменные окружения:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/waiter"
+   JWT_SECRET="ваш_секретный_ключ"
+   ```
+
+3. Примените миграции и заполните базу начальными данными:
+   ```bash
+   npx prisma migrate deploy
+   npx prisma db seed
+   ```
+
+4. Запустите сервер разработки:
+   ```bash
+   npm run dev
+   ```
+
+5. Откройте [http://localhost:3000](http://localhost:3000) в браузере.
+
+## Основные сценарии работы
+
+### Авторизация
+- Вход в систему доступен только сотрудникам, назначенным на активную смену
+- Поддерживаются роли: официант, менеджер, кассир, администратор
+
+### Работа со столами
+- Просмотр статуса всех столов (свободен/занят)
+- Создание нового заказа на стол
+- Добавление/удаление блюд в заказе
+- Просмотр текущего заказа
+
+### Управление меню
+- Просмотр категорий и блюд
+- Автоматический контроль доступности блюд
+- Стоп-лист при недостатке ингредиентов
+- Автоматическое списание ингредиентов при заказе
+
+### Отчёты
+- Статистика по заказам за день/неделю/месяц
+- Выручка официанта
+- Количество обработанных заказов
+
+## Технологии
+
+- **Next.js** 14 (App Router)
+- **React** 18
+- **TypeScript**
+- **Prisma ORM** (PostgreSQL)
+- **TailwindCSS**
+- **bcryptjs** (хэширование паролей)
+- **Headless UI** (модальные окна)
+- **Docker** (рекомендуется для БД)
+
+## Скрипты
+
+- `npm run dev` — запуск в режиме разработки
+- `npm run build` — сборка приложения
+- `npm run start` — запуск production-сервера
+- `npx prisma studio` — визуальный редактор базы данных
+
+## Структура базы данных
+
+Основные сущности:
+- **User** — пользователи системы
+- **Order** — заказы
+- **MenuItem** — блюда меню
+- **Ingredient** — ингредиенты
+- **Shift** — смены
+- **Payment** — платежи
+- **MenuCategory** — категории меню
+
+## Разработка
+
+### Требования
+- Node.js 18+
+- PostgreSQL 14+
+- npm или yarn
+
+### Установка зависимостей
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Запуск в режиме разработки
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Сборка для production
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Лицензия
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
